@@ -1,9 +1,7 @@
-csv                    # (part of Python standard library; no need to include)
-re                     # (part of Python standard library; no need to include)
-subprocess             # (part of Python standard library; no need to include)
-sys                    # (part of Python standard library; no need to include)
-os                     # (part of Python standard library; no need to include)
-winreg                 
-pdfminer
+pdfminer.six
 PySide6
 matplotlib
+seaborn
+pandas
+openpyxl
+curl-cffi

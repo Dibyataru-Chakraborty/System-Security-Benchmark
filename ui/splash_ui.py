@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'splash_ui.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -25,6 +25,11 @@ class Ui_Splash(object):
             Splash.setObjectName(u"Splash")
         Splash.resize(848, 392)
         Splash.setCursor(QCursor(Qt.CursorShape.BlankCursor))
+        Splash.setStyleSheet(u"QWidget#Splash {\n"
+"    background-color: #FFFFFF;\n"
+"    border: 2px solid #800000;\n"
+"    border-radius: 12px;\n"
+"}")
         self.gridLayout = QGridLayout(Splash)
         self.gridLayout.setObjectName(u"gridLayout")
         self.verticalLayout = QVBoxLayout()
@@ -41,10 +46,12 @@ class Ui_Splash(object):
 
         self.welcome = QLabel(Splash)
         self.welcome.setObjectName(u"welcome")
-        self.welcome.setStyleSheet(u"font: 28pt \"Times New Roman\";\n"
-"border-radius:20px;\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0.505682, x2:1, y2:0, stop:0 rgba(11, 151, 120, 239), stop:0.829545 rgba(85, 98, 112, 226));\n"
-"color:rgba(255,255,255,255);")
+        self.welcome.setStyleSheet(u"font-family: 'Segoe UI', -apple-system, sans-serif;\n"
+"font-size: 32pt;\n"
+"font-weight: bold;\n"
+"color: #800000;\n"
+"background-color: transparent;\n"
+"border: none;")
 
         self.horizontalLayout.addWidget(self.welcome)
 
@@ -57,20 +64,19 @@ class Ui_Splash(object):
 
         self.progressBar = QProgressBar(Splash)
         self.progressBar.setObjectName(u"progressBar")
-        self.progressBar.setStyleSheet(u"QProgressBar{\n"
-"	font: 28pt \"Times New Roman\";\n"
-"	color: rgb(255, 255, 255);\n"
-"	border-top-right-radius:20px;\n"
-"	border-bottom-left-radius:20px;\n"
-"	border-bottom-right-radius:20px;\n"
-"	border-top-left-radius:20px;\n"
+        self.progressBar.setStyleSheet(u"QProgressBar {\n"
+"    border: 1px solid #E2DADA;\n"
+"    border-radius: 8px;\n"
+"    background-color: #FAF5F5;\n"
+"    text-align: center;\n"
+"    color: #1E293B;\n"
+"    font-weight: bold;\n"
+"    font-size: 14px;\n"
+"    height: 24px;\n"
 "}\n"
-"QProgressBar::chunk{\n"
-"	background-color: rgb(45, 55, 69);\n"
-"	border-top-right-radius:20px;\n"
-"	border-bottom-left-radius:20px;\n"
-"	border-bottom-right-radius:20px;\n"
-"	border-top-left-radius:20px;\n"
+"QProgressBar::chunk {\n"
+"    background-color: #800000;\n"
+"    border-radius: 8px;\n"
 "}")
         self.progressBar.setValue(24)
 
@@ -91,6 +97,6 @@ class Ui_Splash(object):
 
     def retranslateUi(self, Splash):
         Splash.setWindowTitle(QCoreApplication.translate("Splash", u"Form", None))
-        self.welcome.setText(QCoreApplication.translate("Splash", u"<html><head/><body><p align=\"center\">Zero Security</p></body></html>", None))
+        self.welcome.setText(QCoreApplication.translate("Splash", u"<html><head/><body><p align=\"center\">Digi Samurai</p></body></html>", None))
     # retranslateUi
 

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'audit_ui.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,8 +17,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QGridLayout,
     QHBoxLayout, QHeaderView, QLineEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QSplitter, QTabWidget,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QRadioButton, QSizePolicy, QSpacerItem, QSplitter,
+    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 
 class Ui_Zero_Security(object):
     def setupUi(self, Zero_Security):
@@ -30,6 +31,32 @@ class Ui_Zero_Security(object):
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.source_layout = QHBoxLayout()
+        self.source_layout.setObjectName(u"source_layout")
+        self.radio_local = QRadioButton(Zero_Security)
+        self.radio_local.setObjectName(u"radio_local")
+        self.radio_local.setChecked(True)
+
+        self.source_layout.addWidget(self.radio_local)
+
+        self.radio_online = QRadioButton(Zero_Security)
+        self.radio_online.setObjectName(u"radio_online")
+
+        self.source_layout.addWidget(self.radio_online)
+
+
+        self.verticalLayout_2.addLayout(self.source_layout)
+
+        self.tech_dropdown = QComboBox(Zero_Security)
+        self.tech_dropdown.setObjectName(u"tech_dropdown")
+
+        self.verticalLayout_2.addWidget(self.tech_dropdown)
+
+        self.benchmark_dropdown = QComboBox(Zero_Security)
+        self.benchmark_dropdown.setObjectName(u"benchmark_dropdown")
+
+        self.verticalLayout_2.addWidget(self.benchmark_dropdown)
+
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.path = QLineEdit(Zero_Security)
@@ -86,6 +113,11 @@ class Ui_Zero_Security(object):
         self.submit.setObjectName(u"submit")
 
         self.horizontalLayout.addWidget(self.submit)
+
+        self.backup_btn = QPushButton(Zero_Security)
+        self.backup_btn.setObjectName(u"backup_btn")
+
+        self.horizontalLayout.addWidget(self.backup_btn)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
@@ -263,7 +295,9 @@ class Ui_Zero_Security(object):
     # setupUi
 
     def retranslateUi(self, Zero_Security):
-        Zero_Security.setWindowTitle(QCoreApplication.translate("Zero_Security", u"Zero Security", None))
+        Zero_Security.setWindowTitle(QCoreApplication.translate("Zero_Security", u"Digi Samurai", None))
+        self.radio_local.setText(QCoreApplication.translate("Zero_Security", u"Use Local CIS PDF File", None))
+        self.radio_online.setText(QCoreApplication.translate("Zero_Security", u"Download CIS PDF Online", None))
         self.browse.setText(QCoreApplication.translate("Zero_Security", u"Browse", None))
         self.dropbox.setItemText(0, QCoreApplication.translate("Zero_Security", u"Select", None))
         self.dropbox.setItemText(1, QCoreApplication.translate("Zero_Security", u"HKEY_CLASSES_ROOT", None))
@@ -274,24 +308,25 @@ class Ui_Zero_Security(object):
 
         self.cancel.setText(QCoreApplication.translate("Zero_Security", u"Cancel", None))
         self.submit.setText(QCoreApplication.translate("Zero_Security", u"Submit", None))
+        self.backup_btn.setText(QCoreApplication.translate("Zero_Security", u"Backup Registry", None))
         ___qtablewidgetitem = self.path_table.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Zero_Security", u"Path", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Zero_Security", u"Path", None))
         self.dashboard_plot.setTabText(self.dashboard_plot.indexOf(self.ax1), QCoreApplication.translate("Zero_Security", u"Detection Rate", None))
         self.dashboard_plot.setTabText(self.dashboard_plot.indexOf(self.ax2), QCoreApplication.translate("Zero_Security", u"Types of paths", None))
         self.dashboard_plot.setTabText(self.dashboard_plot.indexOf(self.ax3), QCoreApplication.translate("Zero_Security", u"System Categories", None))
         self.dashboard_plot.setTabText(self.dashboard_plot.indexOf(self.ax4), QCoreApplication.translate("Zero_Security", u"Software Categories", None))
         ___qtablewidgetitem1 = self.result_table.horizontalHeaderItem(0)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Zero_Security", u"Found", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Zero_Security", u"Found", None))
         ___qtablewidgetitem2 = self.result_table.horizontalHeaderItem(1)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Zero_Security", u"Path", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Zero_Security", u"Path", None))
         ___qtablewidgetitem3 = self.hardening_table.horizontalHeaderItem(0)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Zero_Security", u"Hardening", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Zero_Security", u"Hardening", None))
         ___qtablewidgetitem4 = self.hardening_table.horizontalHeaderItem(1)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Zero_Security", u"Path", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Zero_Security", u"Path", None))
         ___qtablewidgetitem5 = self.system_info.horizontalHeaderItem(0)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("Zero_Security", u"Item", None));
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Zero_Security", u"Item", None))
         ___qtablewidgetitem6 = self.system_info.horizontalHeaderItem(1)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("Zero_Security", u"Values", None));
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("Zero_Security", u"Values", None))
         self.submit_hardening.setText(QCoreApplication.translate("Zero_Security", u"Hardening", None))
         self.hardening.setText(QCoreApplication.translate("Zero_Security", u"Hardening", None))
         self.check_security.setText(QCoreApplication.translate("Zero_Security", u"Submit", None))

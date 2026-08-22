@@ -16,6 +16,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#Splash {
+    background-color: #FFFFFF;
+    border: 2px solid #800000;
+    border-radius: 12px;
+}</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -49,14 +56,16 @@
        </item>
        <item>
         <widget class="QLabel" name="welcome">
-         <property name="styleSheet">
-          <string notr="true">font: 28pt &quot;Times New Roman&quot;;
-border-radius:20px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0.505682, x2:1, y2:0, stop:0 rgba(11, 151, 120, 239), stop:0.829545 rgba(85, 98, 112, 226));
-color:rgba(255,255,255,255);</string>
-         </property>
+          <property name="styleSheet">
+           <string notr="true">font-family: 'Segoe UI', -apple-system, sans-serif;
+font-size: 32pt;
+font-weight: bold;
+color: #800000;
+background-color: transparent;
+border: none;</string>
+          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Zero Security&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Digi Samurai&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -77,23 +86,22 @@ color:rgba(255,255,255,255);</string>
      </item>
      <item>
       <widget class="QProgressBar" name="progressBar">
-       <property name="styleSheet">
-        <string notr="true">QProgressBar{
-	font: 28pt &quot;Times New Roman&quot;;
-	color: rgb(255, 255, 255);
-	border-top-right-radius:20px;
-	border-bottom-left-radius:20px;
-	border-bottom-right-radius:20px;
-	border-top-left-radius:20px;
+        <property name="styleSheet">
+         <string notr="true">QProgressBar {
+    border: 1px solid #E2DADA;
+    border-radius: 8px;
+    background-color: #FAF5F5;
+    text-align: center;
+    color: #1E293B;
+    font-weight: bold;
+    font-size: 14px;
+    height: 24px;
 }
-QProgressBar::chunk{
-	background-color: rgb(45, 55, 69);
-	border-top-right-radius:20px;
-	border-bottom-left-radius:20px;
-	border-bottom-right-radius:20px;
-	border-top-left-radius:20px;
+QProgressBar::chunk {
+    background-color: #800000;
+    border-radius: 8px;
 }</string>
-       </property>
+        </property>
        <property name="value">
         <number>24</number>
        </property>

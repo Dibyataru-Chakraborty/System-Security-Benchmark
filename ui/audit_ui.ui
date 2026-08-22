@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Zero Security</string>
+   <string>Digi Samurai</string>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>
@@ -19,6 +19,33 @@
   <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="source_layout">
+       <item>
+        <widget class="QRadioButton" name="radio_local">
+         <property name="text">
+          <string>Use Local CIS PDF File</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radio_online">
+         <property name="text">
+          <string>Download CIS PDF Online</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QComboBox" name="tech_dropdown"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="benchmark_dropdown"/>
+     </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -122,6 +149,13 @@
         <widget class="QPushButton" name="submit">
          <property name="text">
           <string>Submit</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="backup_btn">
+         <property name="text">
+          <string>Backup Registry</string>
          </property>
         </widget>
        </item>

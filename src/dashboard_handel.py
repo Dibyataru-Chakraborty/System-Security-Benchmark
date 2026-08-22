@@ -1,12 +1,10 @@
 import pandas as pd
 import re
 
-dfr1 = pd.read_csv("registry_check_results.csv")
-
 def extract_base_registry(path):
+    if not isinstance(path, str):
+        return ""
     return path.split("\\")[0]
-
-dfr1["BaseRegistry"] = dfr1["path"].apply(extract_base_registry)
 
 def generate_category_patterns(base_registry):
     return {
@@ -39,15 +37,19 @@ def assign_subcategory(row):
             return subcategory
     return "other"
 
-dfr1["Category"] = dfr1.apply(assign_category, axis=1)
-dfr1["subCategory"] = dfr1.apply(assign_subcategory, axis=1)
+def process_data(csv_path="outputs/registry_check_results.csv"):
+    try:
+        dfr1 = pd.read_csv(csv_path)
+    except Exception:
+        # Return empty dataframes if file doesn't exist yet
+        cols = ["sl", "path", "found", "BaseRegistry", "Category", "subCategory"]
+        return pd.DataFrame(columns=cols), pd.DataFrame(columns=cols), pd.DataFrame(columns=cols)
 
-dfr2 = dfr1[dfr1["Category"] == "sys"].copy()
-dfr3 = dfr1[dfr1["Category"] == "s/w"].copy()
+    dfr1["BaseRegistry"] = dfr1["path"].apply(extract_base_registry)
+    dfr1["Category"] = dfr1.apply(assign_category, axis=1)
+    dfr1["subCategory"] = dfr1.apply(assign_subcategory, axis=1)
 
-dfr2.reset_index(drop=True, inplace=True)
-dfr3.reset_index(drop=True, inplace=True)
+    dfr2 = dfr1[dfr1["Category"] == "sys"].copy().reset_index(drop=True)
+    dfr3 = dfr1[dfr1["Category"] == "s/w"].copy().reset_index(drop=True)
 
-# # View the resulting DataFrames (optional)
-# print(dfr2.head())
-# print(dfr3.head())
+    return dfr1, dfr2, dfr3
