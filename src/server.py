@@ -109,22 +109,42 @@ def get_system_info():
 # -------------------------------------------------------------
 # Technologies & Online Benchmarks API (Dynamic from CIS)
 # -------------------------------------------------------------
+CIS_TECH_URL = "https://downloads.cisecurity.org/technology"
+CIS_BENCHMARKS_URL = "https://downloads.cisecurity.org/benchmarks"
+
+def fetch_cis_json(url):
+    try:
+        from curl_cffi import requests as http_lib
+        kwargs = {"impersonate": "chrome"}
+    except ImportError:
+        import requests as http_lib
+        kwargs = {}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://downloads.cisecurity.org/",
+        "Origin": "https://downloads.cisecurity.org",
+    }
+    resp = http_lib.get(url, headers=headers, timeout=25, **kwargs)
+    if resp.status_code == 200:
+        return resp.json()
+    return None
+
 @app.route("/api/technologies", methods=["GET"])
 def get_technologies():
     try:
-        import Cis_Download
-        raw_techs = Cis_Download.get_technologies()
-        flat_techs = Cis_Download.flatten_technologies(raw_techs)
-        
+        data = fetch_cis_json(CIS_TECH_URL)
         formatted = []
-        if flat_techs:
-            for t in flat_techs:
-                formatted.append({
-                    "id": str(t.get("id", "")),
-                    "name": t.get("title", "Unknown"),
-                    "category": t.get("category", "General"),
-                    "version": t.get("latest_technology_version", "")
-                })
+        if data and isinstance(data, dict):
+            for category, tech_list in data.items():
+                if isinstance(tech_list, list):
+                    for t in tech_list:
+                        formatted.append({
+                            "id": str(t.get("id", "")),
+                            "name": t.get("title", "Unknown"),
+                            "category": category,
+                            "version": t.get("latest_technology_version", "")
+                        })
             formatted.sort(key=lambda x: x["name"])
         return jsonify({"success": True, "technologies": formatted})
     except Exception as e:
@@ -134,8 +154,8 @@ def get_technologies():
 @app.route("/api/benchmarks/<tech_id>", methods=["GET"])
 def get_benchmarks(tech_id):
     try:
-        import Cis_Download
-        bms = Cis_Download.get_latest_benchmarks(int(tech_id))
+        url = f"{CIS_BENCHMARKS_URL}?technology_id={tech_id}"
+        bms = fetch_cis_json(url)
         out = []
         if bms and isinstance(bms, list):
             for b in bms:
@@ -147,7 +167,7 @@ def get_benchmarks(tech_id):
                     pid = doc.get("pardot-id", "")
                     fname = doc.get("filename", f"{b_title}.pdf")
                     if pid:
-                        clean_pid = pid.lstrip("/")
+                        clean_pid = str(pid).lstrip("/")
                         download_url = f"https://learn.cisecurity.org/{clean_pid}"
                         out.append({
                             "title": f"{doc_title} (v{b_ver})",

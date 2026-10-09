@@ -22,18 +22,20 @@ def generate_subcategory_patterns(base_registry):
     }
 
 def assign_category(row):
-    base_registry = row["BaseRegistry"]
+    base_registry = str(row.get("BaseRegistry", ""))
+    path_val = str(row.get("path", ""))
     category_patterns = generate_category_patterns(base_registry)
     for category, pattern in category_patterns.items():
-        if re.match(pattern, row["path"], re.IGNORECASE):
+        if re.match(pattern, path_val, re.IGNORECASE):
             return category
     return "Unknown"
 
 def assign_subcategory(row):
-    base_registry = row["BaseRegistry"]
+    base_registry = str(row.get("BaseRegistry", ""))
+    path_val = str(row.get("path", ""))
     subcategory_patterns = generate_subcategory_patterns(base_registry)
     for subcategory, pattern in subcategory_patterns.items():
-        if re.match(pattern, row["path"], re.IGNORECASE):
+        if re.match(pattern, path_val, re.IGNORECASE):
             return subcategory
     return "other"
 

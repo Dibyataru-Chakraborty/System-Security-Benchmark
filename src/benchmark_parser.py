@@ -3,6 +3,66 @@ import re
 import pandas as pd
 from pdfminer.high_level import extract_text
 
+def extract_benchmark_metadata(raw_text="", pdf_path=""):
+    """
+    Dynamically extracts document title, version, compliance target,
+    and evaluation engine from the benchmark PDF text or filename.
+    """
+    title = "CIS Security Benchmark"
+    version = ""
+    
+    if raw_text:
+        first_chunk = raw_text[:4000]
+        m_title = re.search(r'(CIS\s+[A-Za-z0-9\s\(\)]+Benchmark(?:\s+v[\d\.]+)?|\bCIS\s+Windows\s+[0-9A-Za-z\s]+Benchmark)', first_chunk, re.IGNORECASE)
+        if m_title:
+            title = re.sub(r'\s+', ' ', m_title.group(1)).strip()
+        
+        m_ver = re.search(r'\bv?(\d+\.\d+(?:\.\d+)?)\b', title)
+        if m_ver:
+            version = f"v{m_ver.group(1)}"
+            
+    if (not title or title == "CIS Security Benchmark") and pdf_path:
+        base_name = os.path.basename(pdf_path).replace(".pdf", "")
+        clean_name = base_name.replace("_", " ").replace("-", " ")
+        clean_name = re.sub(r'\s+', ' ', clean_name).strip()
+        if "CIS" in clean_name.upper():
+            title = clean_name
+            m_ver = re.search(r'\bv?(\d+\.\d+(?:\.\d+)?)\b', title, re.IGNORECASE)
+            if m_ver:
+                version = f"v{m_ver.group(1)}"
+
+    return {
+        "benchmark_title": title,
+        "benchmark_version": version,
+        "compliance_target": title,
+        "evaluation_engine": "Risk Nexus CIS Security Benchmark Engine",
+    }
+
+def determine_severity(rule_id="", level="L1", title="", key_path=""):
+    """
+    Computes an accurate severity level (Critical, High, Medium, Low)
+    based on profile level and security risk keywords.
+    """
+    text = f"{title} {key_path}".lower()
+    
+    # Critical criteria
+    if any(k in text for k in ["firewall", "credential", "uac", "administrator", "bitlocker", "smbv1", "antivirus", "defender", "remote code", "anonymous"]):
+        return "Critical"
+    
+    # High criteria
+    if any(k in text for k in ["audit", "password", "lockout", "encryption", "tls", "rdp", "remote desktop", "privilege", "telemetry"]):
+        return "High"
+        
+    # Level based defaults
+    if level == "L2":
+        return "High"
+    elif level == "NG":
+        return "Low"
+    elif level == "L1":
+        return "Medium"
+        
+    return "Medium"
+
 def parse_cis_pdf(pdf_path):
     print(f"Reading and extracting text from {pdf_path}...")
     raw_text = extract_text(pdf_path)
