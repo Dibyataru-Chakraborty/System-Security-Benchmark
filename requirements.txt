@@ -1,7 +1,5 @@
-pdfminer.six
-PySide6
-matplotlib
-seaborn
-pandas
-openpyxl
-curl-cffi
+flask>=3.0.0
+pdfminer.six>=20221105
+pandas>=2.0.0
+openpyxl>=3.1.0
+curl-cffi>=0.7.0

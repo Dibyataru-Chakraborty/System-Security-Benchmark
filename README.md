@@ -1,6 +1,46 @@
-# **Digi Samurai - Windows Security Auditor & Hardener**
+# **Risk Nexus - Windows Security Auditor & Hardener**
 
-A robust, premium, high-contrast security framework to assess, audit, and enhance Windows system security according to the **CIS Microsoft Windows 11 Enterprise Benchmark v5.1.0**.
+> **Enterprise CIS Security Benchmark Hardening, Compliance & Remediation Platform**  
+> **Created By: Dibyataru Chakraborty**
+
+---
+
+## **Overview**
+
+**Risk Nexus** is an enterprise-grade cybersecurity audit and compliance platform designed to assess, audit, remediate, and harden Windows operating systems against official **CIS (Center for Internet Security) Benchmarks**.
+
+With support for both local PDF benchmark files and live online benchmark downloads directly from the CIS repository, **Risk Nexus** provides a fast, dynamic, and non-hardcoded evaluation engine with multi-format reporting (Excel, CSV, `.reg` Registry Backups).
+
+---
+
+## **Key Features**
+
+1. **Dual Network Dashboard (Localhost & LAN)**:
+   - Built on a lightweight, high-performance web dashboard running on `0.0.0.0:5000`.
+   - Accessible locally (`http://127.0.0.1:5000`) or from any browser across your local network (`http://<local_ip>:5000`).
+
+2. **Automated CIS Online Benchmark Downloader**:
+   - Integrated Chrome TLS fingerprint impersonation (`curl_cffi`) to dynamically discover technologies, list benchmark versions, and download official CIS PDF documents.
+
+3. **100% Dynamic Chunk-Based PDF Parsing**:
+   - Zero hardcoded maps or rule dictionaries. 
+   - Dynamically parses rule IDs, profile levels (Level 1, Level 2, Next Gen), severity levels, registry hives, key paths, value names, types, and recommended values directly from document text.
+
+4. **Live Host Registry Auditing**:
+   - Fast, native scanning against multiple registry hives (`HKEY_LOCAL_MACHINE`, `HKEY_CURRENT_USER`, `HKEY_CLASSES_ROOT`, `HKEY_USERS`, `HKEY_CURRENT_CONFIG`).
+   - Normalizes and verifies DWORD, String, MultiString, ExpandString, and Binary keys.
+
+5. **Visual Analytics & Category Intelligence**:
+   - Real-time Chart.js visual telemetry for compliance score, pass/fail ratios, system vs software path categories, and subcategory breakdown.
+
+6. **Selective Hardening & Automated Remediation**:
+   - Review failed benchmarks and selectively apply recommended security hardening values directly to the Windows registry with a single click.
+
+7. **Safety-First Registry Backup**:
+   - Automatically exports standard `.reg` backup files prior to remediation for instant rollback.
+
+8. **Enterprise Excel & CSV Reporting**:
+   - Generates beautifully styled multi-sheet Excel workbooks (`.xlsx`) featuring Executive Summaries, KPI cards, profile level breakdowns, detailed audit logs, and actionable PowerShell / Reg.exe commands.
 
 ---
 
@@ -9,98 +49,75 @@ A robust, premium, high-contrast security framework to assess, audit, and enhanc
 ```
 D:\Project\System-Security-Benchmark
 ├── src/                               # Core Python logic modules
-│   ├── benchmark_parser.py            # High-fidelity PDF extraction and rule mapping
-│   ├── dashboard.py                   # Matplotlib dashboard plotting routines
-│   └── dashboard_handel.py            # Data preprocessing and category sorting
-├── ui/                                # PySide6 Graphical User Interface layouts
-│   ├── audit_ui.ui / audit_ui.py      # Main window UI structure
-│   └── splash_ui.ui / splash_ui.py    # Splash screen UI structure
-├── outputs/                           # Active audit output files
-│   ├── download.log                   # Connection logs for dynamic downloading
-│   └── extracted_registry_lines_serialized.csv  # CSV database of parsed benchmark lines
+│   ├── benchmark_parser.py            # Dynamic PDF rule & metadata extraction engine
+│   ├── excel_exporter.py              # Multi-sheet enterprise Excel report generator
+│   ├── server.py                      # Flask REST API and web application server
+│   └── dashboard_handel.py            # Analytics and telemetry category processor
+├── static/                            # Frontend assets (Tailwind, Lucide, Chart.js, styles)
+│   ├── app.js                         # Dynamic UI state manager and API bridge
+│   ├── styles.css                     # Custom styles and scrollbar overrides
+│   └── DigiSamurai.png                # Platform icon / branding asset
+├── templates/                         # HTML Templates
+│   └── index.html                     # Single-page executive dashboard interface
+├── outputs/                           # Generated audit reports, logs, and backups
 ├── dist/                              # Standalone packaged executables
-│   └── System_Security.exe            # Standalone single-file executable
-├── System_Security.py                 # Main Graphical User Interface (GUI) entry point
+│   └── Risk_Nexus.exe                 # Single-file standalone executable
+├── app.py                             # Primary application launcher
+├── Risk_Nexus.py                      # Core entrypoint script
 ├── requirements.txt                   # Dependency list
-└── LICENSE                            # License details
+└── README.md                          # Platform documentation
 ```
 
-*Note: All intermediate cache files (`technologies.json`, `benchmarks_<id>.json`), downloaded PDFs, and report exports (`harden_system.ps1`, `CIS_Windows_11_Hardening_Rules.xlsx`, `hardening_report.md`) are saved directly inside the system's temporary directory (`tempfile.gettempdir()`) to prevent workspace pollution.*
-
 ---
 
-## **Standalone Executable (.exe)**
-
-The application is pre-packaged as a single, standalone executable that requests administrative permissions automatically:
-
-### **Run Standalone:**
-Launch **`dist/System_Security.exe`** directly from anywhere. 
-* All libraries (Matplotlib, PySide6, pandas, curl_cffi, pdfminer) are bundled in this single file.
-* It automatically triggers the Windows UAC (User Account Control) prompt to run with Administrator privileges, which are required to write and apply registry hardening.
-
-### **Compile From Source:**
-To compile the executable yourself:
-1. Ensure the virtual environment is activated.
-2. Install PyInstaller:
-   ```powershell
-   pip install pyinstaller
-   ```
-3. Run the compiler:
-   ```powershell
-   pyinstaller --onefile --noconsole --uac-admin System_Security.py
-   ```
-The compiled output will be available under `dist/System_Security.exe`. You can safely delete the generated `build/` folder and `System_Security.spec` configuration file.
-
----
-
-## **Developer Installation**
+## **Installation & Setup**
 
 ### **Prerequisites**
-Ensure you have Python 3.12+ installed. The project runs in a localized virtual environment (`venv`).
+- Windows 10 / 11 / Windows Server (x64)
+- Python 3.12+ (for running from source)
 
-### **Activation & Dependencies**
-To activate the virtual environment and install dependencies:
-1. Open PowerShell in the project directory.
-2. Run the activation script:
-   ```powershell
-   .\venv\Scripts\activate
-   ```
-3. Install required packages:
-   ```powershell
-   pip install -r requirements.txt
-   ```
-
-### **Compiling UI Layouts**
-If you modify the Qt Designer `.ui` layout files in the `ui/` directory, recompile them to Python modules:
+### **1. Clone Repository**
 ```powershell
-pyside6-uic .\ui\audit_ui.ui -o .\ui\audit_ui.py
-pyside6-uic .\ui\splash_ui.ui -o .\ui\splash_ui.py
+git clone https://github.com/Dibyataru-Chakraborty/System-Security-Benchmark.git
+cd System-Security-Benchmark
+```
+
+### **2. Set Up Virtual Environment**
+```powershell
+python -m venv venv
+.\venv\Scripts\activate
+```
+
+### **3. Install Dependencies**
+```powershell
+pip install -r requirements.txt
 ```
 
 ---
 
-## **How to Run (Source)**
+## **Running Risk Nexus**
 
-Launch the interactive PySide6 desktop auditor:
+### **Run from Source**
 ```powershell
-# Active virtual environment:
-python System_Security.py
+# Launch with Python (Administrator recommended for remediation):
+python Risk_Nexus.py
+```
+*The application will automatically detect your local network IP and open your default browser to `http://127.0.0.1:5000`.*
 
-# Direct invocation via venv:
-.\venv\Scripts\python.exe System_Security.py
+---
+
+## **Compiling Standalone Executable (.exe)**
+
+To build a clean, single-file executable (`dist/Risk_Nexus.exe`) with administrator elevation:
+
+```powershell
+.\venv\Scripts\pyinstaller.exe --onefile --name Risk_Nexus --uac-admin --add-data "templates;templates" --add-data "static;static" --add-data "src;src" --hidden-import "curl_cffi" --hidden-import "openpyxl" --hidden-import "flask" --hidden-import "pdfminer" --hidden-import "pdfminer.high_level" --hidden-import "pdfminer.layout" --hidden-import "pandas" --collect-all "curl_cffi" --collect-all "openpyxl" --collect-all "pdfminer" --exclude-module "PySide6" --exclude-module "shiboken6" --exclude-module "matplotlib" --exclude-module "tkinter" --clean Risk_Nexus.py
 ```
 
 ---
 
-## **GUI Features**
+## **Author & Credits**
 
-1. **Source Toggles:** Choose between "Use Local CIS PDF File" (local file search) and "Download CIS PDF Online" (automated fetching from the web).
-2. **Dynamic Search & Filtering:** Downloads online benchmark databases matching your system, automatically searching and filtering for the `"windows"` and `"desktop"` keywords.
-3. **Select Hive:** Select the target registry hive (e.g. `HKEY_LOCAL_MACHINE`) from the dropdown.
-4. **Download Confirmation & Verification:** When selecting the online downloader, the application guides you through downloading the file, prompts a verification file dialog, and reminds you to choose a registry hive before activating the Submit button.
-5. **Session Authorization Required Fallback:** If connection logs indicate authorization blockages, a helper prompt allows you to open the link directly in Chrome or paste your `laravel_session` cookie to bypass authentication restrictions.
-6. **Submit (Audit):** Click the bottom `Submit` button to run an audit scanning your host system's current registry.
-7. **Interactive Dashboard:** Click the `Dashboard` button to view high-contrast Matplotlib graphs. The charts utilize separate color palettes (Emerald/Maroon for Pie, Teal/Indigo for Systems, Lime/Rose for Software) to offer clear visual differentiation.
-8. **Hardening Checkboxes:** Select the desired rules and click `Hardening` to generate checkboxes for individual settings, allowing you to selectively generate hardening steps.
-9. **Registry Hardening Execution:** Apply your selected hardening configurations directly to the system registry through Python's native `winreg` wrapper.
-10. **Backup Registry:** Click `Backup Registry` next to the Cancel/Submit buttons to generate a standard `.reg` file backup containing either the targeted CIS registry keys (if parsed) or the complete system security hives (as a fallback). You can select your desired save path.
+- **Author / Developer**: **Dibyataru Chakraborty**
+- **Platform**: **Risk Nexus Security Benchmark Suite**
+- **License**: MIT License

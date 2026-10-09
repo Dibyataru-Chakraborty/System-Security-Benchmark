@@ -1,7 +1,24 @@
-
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
 *.pyc
-*.pdf
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# PyInstaller & Build artifacts
+build/
+dist/
+*.spec
+
+# Output files, Excel, Logs, PDFs
+outputs/
 *.xlsx
-/outputs
-/dist
-/venv
+*.csv
+*.pdf
+*.log
+*.reg
+.cache/
